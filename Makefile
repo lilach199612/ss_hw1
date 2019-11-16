@@ -1,16 +1,19 @@
-all:mymaths.a mymathd.so mains maind
+all:mymaths mymathd mains maind
 
-maind:main.o
-	gcc -Wall -g -o maind main.o ./mymathd.so
+maind:main.o 
+	gcc -Wall -g -o maind main.o ./libmyMath.so
 
-mains:main.o mymaths.a
-	gcc -Wall -g -o  mains main.o mymaths.a 
+mains:main.o  libmyMath.a 
+	gcc -Wall -g -o  mains main.o libmyMath.a 
 
-mymaths.a:basicMath.o power.o myMath.h
-	ar -rcs mymaths.a basicMath.o power.o myMath.h 
+mymaths:libmyMath.a
+mymathd:libmyMath.so
 
-mymathd.so:basicMath.o power.o myMath.h
-	gcc -shared -o mymathd.so basicMath.o power.o myMath.h
+libmyMath.a:basicMath.o power.o myMath.h
+	ar -rcs libmyMath.a basicMath.o power.o myMath.h 
+
+libmyMath.so:basicMath.o power.o myMath.h
+	gcc -shared -o libmyMath.so basicMath.o power.o myMath.h
 
 basicMath.o:basicMath.c
 	gcc -Wall -g -c basicMath.c
